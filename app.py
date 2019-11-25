@@ -27,8 +27,12 @@ def get_id_actors(_id):
 
     q = actors.find_one({'_id': ObjectId(_id)})
 
+    output = []
+
     if q:
-        output = {'firstname': q['firstname'], 'lastname': q['lastname']}
+        for movie_name in q['movies']:
+            output.append({'firstname': q['firstname'], 'lastname': q['lastname'], 'movie_name': movie_name})
+
     else:
         output = 'No actor found'
 
@@ -55,12 +59,21 @@ def add_actors():
     firstname = request.json['firstname']
     lastname = request.json['lastname']
 
-    actor_id = actors.insert({'firstname': firstname, 'lastname': lastname})
+    movies = request.json['movies']
+
+    actor_id = actors.insert({'firstname': firstname, 'lastname': lastname, 'movies': movies})
     new_actor = actors.find_one({'_id': actor_id})
 
-    output = {'firstname': new_actor['firstname'], 'lastname': new_actor['lastname']}
+    output = {'firstname': new_actor['firstname'], 'lastname': new_actor['lastname'], 'movies': new_actor['movies']}
 
     return jsonify({'result': output})
+
+
+'''
+@app.route('/actors/<movie_name>', methods=['GET'])
+def get_actors_movie():
+    actors = mongo.db.actors
+'''
 
 
 @app.route("/actors/<_id>", methods=["PUT"])
