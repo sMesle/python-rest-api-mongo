@@ -75,7 +75,7 @@ def get_actors_movie(movie_name):
 
     output = []
 
-    for q in actors.find({'movies': [{"name": movie_name}]}):
+    for q in actors.find({'movies': {"name": movie_name}}):
         output.append({'firstname': q['firstname'], 'lastname': q['lastname']})
 
     return jsonify(output)
