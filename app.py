@@ -69,11 +69,16 @@ def add_actors():
     return jsonify({'result': output})
 
 
-'''
-@app.route('/actors/<movie_name>', methods=['GET'])
-def get_actors_movie():
+@app.route('/actors/movie/<movie_name>', methods=['GET'])
+def get_actors_movie(movie_name):
     actors = mongo.db.actors
-'''
+
+    output = []
+
+    for q in actors.find({'movies': [{"name": movie_name}]}):
+        output.append({'firstname': q['firstname'], 'lastname': q['lastname']})
+
+    return jsonify(output)
 
 
 @app.route("/actors/<_id>", methods=["PUT"])
