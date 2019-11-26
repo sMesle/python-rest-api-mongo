@@ -4,7 +4,7 @@ from bson.objectid import ObjectId
 
 app = Flask(__name__)
 
-app.config['MONGO_URI'] = 'mongodb://localhost:27017/actors'
+app.config['MONGO_URI'] = 'mongodb://db:27017/actors'
 
 mongo = PyMongo(app)
 
@@ -112,4 +112,4 @@ def delete_actor(_id):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
